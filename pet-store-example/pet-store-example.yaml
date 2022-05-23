@@ -1,0 +1,348 @@
+openapi: 3.0.0
+info:
+  title: Pet store API
+  version: "0.1"
+  description: Pet store API to manage pet store
+paths:
+  /pets:
+    get:
+      tags:
+        - pets
+      operationId: main.get_pets
+      summary: Get all pets
+      parameters:
+        - $ref: "#/components/parameters/pet_type"
+        - $ref: "#/components/parameters/limit"
+      responses:
+        "200":
+          $ref: "#/components/responses/ReturnPets"
+
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+      security:
+        - jwt: []
+        - api_key: []
+
+  "/pets/available":
+    get:
+      tags:
+        - pets
+      operationId: main.get_available_pets
+      summary: Get all available pets
+
+      responses:
+        "200":
+          $ref: "#/components/responses/ReturnPets"
+
+  "/pets/{pet_id}":
+    get:
+      tags:
+        - pets
+      operationId: main.get_pet
+      summary: Get a single pet
+      parameters:
+        - $ref: "#/components/parameters/pet_id"
+      responses:
+        "200":
+          description: Return pet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        "404":
+          description: pet does not exist
+    put:
+      tags:
+        - pets
+      operationId: main.put_pet
+      summary: Update a pet
+      parameters:
+        - $ref: "#/components/parameters/pet_id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+      responses:
+        "200":
+          description: pet updated
+        "201":
+          description: New pet created
+    delete:
+      tags:
+        - pets
+      operationId: main.delete_pet
+      summary: Delete a pet
+      parameters:
+        - $ref: "#/components/parameters/pet_id"
+      responses:
+        "204":
+          description: pet was deleted
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          description: pet does not exist
+
+  "/pets/{pet_id}/availability":
+    get:
+      tags:
+        - pets
+      operationId: main.get_pet_availability
+      summary: get the availability of a pet
+      parameters:
+        - $ref: '#/components/parameters/pet_id'
+        - $ref: '#/components/parameters/pickup_date'
+      responses:
+        "200":
+          description: pet availability
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+
+        "404":
+          description: pet does not exist
+
+  "/reservation":
+    post:
+      tags:
+        - pets
+      operationId: main.put_reservation
+      summary: reserve a pet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+      responses:
+        "200":
+          description: reservation status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+
+  "/user/profile":
+    get:
+      tags:
+        - user
+      operationId: main.get_profile
+      summary: get user profile
+      responses:
+        "200":
+          description: user profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: user does not exist
+
+
+  /auth/{user_id}:
+    get:
+      summary: Return JWT token
+      operationId: jwtdecoder.generate_token
+      parameters:
+        - name: user_id
+          description: User unique identifier
+          in: path
+          required: true
+          example: 12
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /secret:
+    get:
+      summary: Return secret string
+      operationId: jwtdecoder.get_secret
+      responses:
+        "200":
+          description: secret response
+          content:
+            "text/plain":
+              schema:
+                type: string
+      security:
+        - jwt: ["secret"]
+
+  /healthz:
+    get:
+      operationId: main.health
+      summary: Return status of server
+      responses:
+        "200":
+          description: return status
+
+components:
+  parameters:
+    limit:
+      name: limit
+      description: limit number of results
+      in: query
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        default: 100
+    pet_id:
+      name: pet_id
+      description: pets Unique identifier
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-]+$
+    pet_type:
+      name: pet_type
+      description: type of pet
+      in: query
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-]+$
+    pet_status:
+      name: pet_status
+      description: pets status
+      in: path
+      required: true
+      schema:
+        type: boolean
+    pickup_date:
+      name: pickup date
+      in: query
+      schema:
+        type: string
+        format: date
+  responses:
+    UnauthorizedError:
+      description: API key is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
+    ReturnPets:
+      description: Return pets
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              pets:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pet"
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Auth
+      in: header
+      x-apikeyInfoFunc: main.apikey_auth
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-bearerInfoFunc: jwtdecoder.decode_token
+  schemas:
+    Message:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: message
+          example: "success"
+    Pet:
+      type: object
+      required:
+        - pet_id
+        - pet_type
+        - pet_name
+        - pet_status
+      properties:
+        pet_id:
+          type: string
+          description: Unique identifier
+          example: "12"
+        pet_type:
+          type: string
+          description: pet type
+          example: "fish"
+        pet_name:
+          type: string
+          description: pet name
+          example: "goldfish"
+        pet_status:
+          type: string
+          description: pet availability
+          example: "available"
+        created:
+          type: string
+          format: date-time
+          description: Creation time
+          example: 2015-07-07T15:49:51.230+02:00
+          readOnly: true
+    User:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - username
+        - dob
+        - state
+        - postcode
+      properties:
+        first_name:
+          type: string
+          description: first name
+          example: "Adam"
+        last_name:
+          type: string
+          description: last name
+          example: "Powers"
+        username:
+          type: string
+          description: username
+          example: "adamnpowers"
+          readOnly: true
+        dob:
+          type: string
+          format: date
+          description: date of birth
+          example: "2000-01-05"
+        state:
+          type: string
+          description: state
+          example: "Texas"
+        postcode:
+          type: string
+          description: postal code
+          example: "D08TY32"
+    Reservation:
+      type: object
+      required:
+        - username
+        - pickup_date
+        - pet_id
+      properties:
+        username:
+          type: string
+          description: username
+          example: lion423
+        pickup_date:
+          type: string
+          format: date
+          description: reservation start date
+          example: "2022-09-09"
+        pet_id:
+          type: string
+          description: pet ID
+          pattern: ^[a-zA-Z0-9-]+$
