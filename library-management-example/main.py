@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import json
-from pickle import TRUE
 from random import randint
 from randomuser import RandomUser
 import pointsecio
