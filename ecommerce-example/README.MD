@@ -1,4 +1,4 @@
-Hotel Booking api
+Ecommerce website api
 
 https://pointsecio.readthedocs.io/en/latest/
 

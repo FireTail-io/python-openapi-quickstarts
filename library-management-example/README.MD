@@ -1,4 +1,4 @@
-Hotel Booking api
+Library management api
 
 https://pointsecio.readthedocs.io/en/latest/
 

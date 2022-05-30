@@ -1,4 +1,4 @@
-Hotel Booking api
+Social media api
 
 https://pointsecio.readthedocs.io/en/latest/
 

@@ -1,4 +1,4 @@
-Hotel Booking api
+Petstore api based on Swagger 3.0
 
 https://pointsecio.readthedocs.io/en/latest/
 
