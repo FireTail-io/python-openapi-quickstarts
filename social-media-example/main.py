@@ -13,6 +13,8 @@ from pointsecio.auditor import request_auditor
 from pointsecio.exceptions import OAuthProblem
 from requests import get
 
+from pointsecio import request
+
 TOKEN_DB = {
     'asdf1234567890': {
         'uid': 100
@@ -92,7 +94,8 @@ def get_friend(friend_id):
     friend = FRIENDS.get(friend_id)
     return friend or ("Not found", 404)
 
-def put_friend(friend_id, friend):
+def put_friend(friend_id):
+    friend = request.json
     exists = friend_id in FRIENDS
     friend['friend_id'] = friend_id
     if exists:
@@ -124,7 +127,8 @@ def get_post(post_id):
     post = POSTS.get(post_id)
     return post or ("Not found", 404)
 
-def put_post(post_id, post):
+def put_post(post_id:
+    post = request.json
     exists = post_id in POSTS
     post['post_id'] = post_id
     if exists:

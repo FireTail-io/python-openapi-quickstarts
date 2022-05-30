@@ -13,6 +13,8 @@ from pointsecio.auditor import request_auditor
 from pointsecio.exceptions import OAuthProblem
 from requests import get
 
+from pointsecio import request
+
 TOKEN_DB = {
     'asdf1234567890': {
         'uid': 100
@@ -168,7 +170,8 @@ def get_book(book_id):
     book = BOOKS.get(book_id)
     return book or ("Not found", 404)
 
-def put_book(book_id, book):
+def put_book(book_id):
+    book = request.json
     exists = book_id in BOOKS
     book['book_id'] = book_id
     if exists:

@@ -1,5 +1,0 @@
-pointsecio
-python-jose
-werkzeug
-flask
-randomuser

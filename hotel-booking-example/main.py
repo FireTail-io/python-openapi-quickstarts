@@ -13,6 +13,8 @@ from pointsecio.auditor import request_auditor
 from pointsecio.exceptions import OAuthProblem
 from requests import get
 
+from pointsecio import request
+
 TOKEN_DB = {
     'asdf1234567890': {
         'uid': 100
@@ -134,7 +136,8 @@ def get_room(room_id):
     room = ROOMS.get(room_id)
     return room or ("Not found", 404)
 
-def put_room(room_id, room):
+def put_room(room_id):
+    room = request.json
     exists = room_id in ROOMS
     room['room_id'] = room_id
     if exists:
@@ -201,13 +204,6 @@ app = pointsecio.App(__name__)
 
 app.add_api('openapi-3.0.yaml')
 
-
-@app.app.after_request
-def after_request(response):
-    test = request_auditor.create(
-        response, token="PS-01-e503d765-4f26-48bf-b76d-1c9a2f8bc1f5")
-    print(test)
-    return response
 
 
 if __name__ == '__main__':

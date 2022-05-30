@@ -13,6 +13,8 @@ from pointsecio.auditor import request_auditor
 from pointsecio.exceptions import OAuthProblem
 from requests import get
 
+from pointsecio import request
+
 TOKEN_DB = {
     'asdf1234567890': {
         'uid': 100
@@ -241,7 +243,8 @@ def get_product(product_id):
     product = PRODUCTS.get(product_id)
     return product or ("Not found", 404)
 
-def put_product(product_id, product):
+def put_product(product_id):
+    product = request.json
     exists = product_id in PRODUCTS
     product['product_id'] = product_id
     if exists:
