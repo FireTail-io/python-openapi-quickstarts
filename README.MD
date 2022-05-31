@@ -23,13 +23,13 @@ Download and install python (3.6+) [here](https://www.python.org/downloads/)
 
 ### *Step 2: Install Postman*
 
-You can download and use postman or use the web version in which case you have to download the postman desktop agent to be able to send api requests to ur local host.<br>
+You can download and use postman or use the web version in which case you have to download the postman desktop agent to be able to send api requests to your local host.<br>
 Download and install postman [here](https://www.postman.com/downloads/)
 ***
 
 ### *Step 3: Download the files*
 
-You can either download the files from Github as a zip or clone the repo to ur local machine using -
+You can either download the files from Github as a zip or clone the repo to your local machine using -
 ```
 git clone https://github.com/PointSec-io/python-openapi-quickstarts.git
 ```

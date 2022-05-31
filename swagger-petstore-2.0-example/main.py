@@ -454,10 +454,10 @@ def createUsersWithArrayInput():
     return NoContent, 200
 
 def loginUser(username, password):
-    return json.dumps("User logged in successfully"), 200
+    return {"message": "<replace with return message>"}, 200
 
 def logoutUser():
-    return json.dumps("User logged out"), 200
+    return {"message": "<replace with return message>"}, 200
 
 def getUserByName(username):
     for user in USERS.values():
