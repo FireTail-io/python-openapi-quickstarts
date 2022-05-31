@@ -454,10 +454,11 @@ def createUsersWithArrayInput():
     return NoContent, 200
 
 def loginUser(username, password):
-    return {"message": "<replace with return message>"}, 200
+    message = "User " + username + " logged in successfully"
+    return {"message": message}, 200
 
 def logoutUser():
-    return {"message": "<replace with return message>"}, 200
+    return {"message": "User logged out"}, 200
 
 def getUserByName(username):
     for user in USERS.values():
