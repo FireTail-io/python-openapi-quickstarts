@@ -201,7 +201,7 @@ def delete_book(book_id):
         return NoContent, 404
 
 def get_book_availability(book_id):
-    exists = book_id in BOOKS
+    exists = str(book_id) in BOOKS
     if exists:
         counter = randint(1,10)
         if(counter > 5):

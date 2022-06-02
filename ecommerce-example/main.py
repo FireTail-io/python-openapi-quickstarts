@@ -245,7 +245,7 @@ def get_product(product_id):
 
 def put_product(product_id):
     product = request.json
-    exists = product_id in PRODUCTS
+    exists = str(product_id) in PRODUCTS
     product['product_id'] = product_id
     if exists:
         print("Found product ", product_id)
@@ -263,10 +263,10 @@ def put_product(product_id):
     return NoContent, (200 if exists else 201)
 
 def delete_product(product_id):
-    if product_id in PRODUCTS:
+    if str(product_id) in PRODUCTS:
         print("Found product ", product_id)
         try:
-            del PRODUCTS[product_id]
+            del PRODUCTS[str(product_id)]
         except:
             print("Exception occured during deletion of product")
         return NoContent, 204
@@ -274,7 +274,7 @@ def delete_product(product_id):
         return NoContent, 404
 
 def get_product_availability(product_id):
-    exists = product_id in PRODUCTS
+    exists = str(product_id) in PRODUCTS
     if exists:
         counter = randint(1,10)
         if(counter > 5):

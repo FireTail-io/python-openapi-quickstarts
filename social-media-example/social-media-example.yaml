@@ -4,7 +4,7 @@ info:
   version: "0.1"
   description: Social media API
 paths:
-  "/friends":
+  /friends:
     get:
       tags:
         - friends
@@ -22,7 +22,7 @@ paths:
         - jwt: []
         - api_key: []
 
-  "/timeline":
+  /timeline:
     get:
       tags:
         - posts
@@ -284,7 +284,6 @@ components:
           type: string
           description: username
           example: "adamnpowers"
-          readOnly: true
         dob:
           type: string
           format: date

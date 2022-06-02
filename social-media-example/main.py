@@ -127,7 +127,7 @@ def get_post(post_id):
     post = POSTS.get(post_id)
     return post or ("Not found", 404)
 
-def put_post(post_id:
+def put_post(post_id):
     post = request.json
     exists = post_id in POSTS
     post['post_id'] = post_id

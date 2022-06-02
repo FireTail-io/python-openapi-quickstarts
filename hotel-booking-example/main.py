@@ -167,7 +167,7 @@ def delete_room(room_id):
         return NoContent, 404
 
 def get_room_availability(room_id):
-    exists = room_id in ROOMS
+    exists = str(room_id) in ROOMS
     if exists:
         counter = randint(1,10)
         if(counter > 5):
