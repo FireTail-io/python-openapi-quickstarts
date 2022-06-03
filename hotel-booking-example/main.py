@@ -176,7 +176,7 @@ def get_room_availability(room_id):
             message = "Room " + room_id + " is not available"
         return json.dumps({"message": message}), 200
     else:
-        return NoContent, 404
+        return json.dumps({"message": "invalid room id"}), 404
 
 def put_booking():
     counter = randint(1,10)

@@ -37,7 +37,7 @@ def get_profile(id):
         "first_name": user.get_first_name(),
         "last_name": user.get_last_name(),
         "username": user.get_username(),
-        "dob": datetime.datetime.strptime(user.get_dob(),'%Y-%m-%dT%H:%M:%S.%fZ').date(),
+        "dob": datetime.datetime.strptime(user.get_dob(),'%Y-%m-%dT%H:%M:%S.%fZ').date().strftime("%Y-%m-%d"),
         "state": user.get_state(),
         "postcode": user.get_postcode()
         }
@@ -92,7 +92,7 @@ def get_friends(limit):
 
 def get_friend(friend_id):
     friend = FRIENDS.get(friend_id)
-    return friend or ("Not found", 404)
+    return friend or (json.dumps({'message': "Not found"}), 404)
 
 def put_friend(friend_id):
     friend = request.json
@@ -125,7 +125,7 @@ def delete_friend(friend_id):
 
 def get_post(post_id):
     post = POSTS.get(post_id)
-    return post or ("Not found", 404)
+    return post or (json.dumps({'message': "Not found"}), 404)
 
 def put_post(post_id):
     post = request.json

@@ -210,7 +210,7 @@ def get_book_availability(book_id):
             message = "book " + book_id + " is not available"
         return json.dumps({"message": message}), 200
     else:
-        return NoContent, 404
+        return json.dumps({"message": "invalid book id"}), 404
 
 def put_reservation():
     counter = randint(1,10)

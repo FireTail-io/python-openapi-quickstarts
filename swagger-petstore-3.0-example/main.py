@@ -337,6 +337,8 @@ USERS = {
     },
 }
 
+def health():
+    return {'status': 'UP'}
 
 def addPet():
     try:

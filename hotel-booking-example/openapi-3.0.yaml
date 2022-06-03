@@ -21,7 +21,6 @@ paths:
           $ref: "#/components/responses/UnauthorizedError"
       security:
         - jwt: []
-        - api_key: []
 
   "/rooms/available":
     get:
@@ -33,6 +32,8 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/ReturnRooms"
+      security:
+        - jwt: []
 
   "/rooms/{room_id}":
     get:
@@ -51,6 +52,9 @@ paths:
                 $ref: "#/components/schemas/Room"
         "404":
           description: room does not exist
+      security:
+        - jwt: []
+
     put:
       tags:
         - rooms
@@ -68,6 +72,9 @@ paths:
           description: room updated
         "201":
           description: New room created
+      security:
+        - jwt: []
+
     delete:
       tags:
         - rooms
@@ -82,6 +89,8 @@ paths:
           $ref: "#/components/responses/UnauthorizedError"
         "404":
           description: product does not exist
+      security:
+        - jwt: []
 
   "/rooms/{room_id}/availability":
     get:
@@ -103,6 +112,8 @@ paths:
 
         "404":
           description: room does not exist
+      security:
+        - jwt: []
 
   "/booking":
     post:
@@ -122,6 +133,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Message"
+      security:
+        - jwt: []
 
   "/user/profile":
     get:
@@ -138,6 +151,8 @@ paths:
                 $ref: "#/components/schemas/User"
         "404":
           description: user does not exist
+      security:
+        - jwt: []
 
 
   /auth/{user_id}:
@@ -247,11 +262,6 @@ components:
                 items:
                   $ref: "#/components/schemas/Room"
   securitySchemes:
-    api_key:
-      type: apiKey
-      name: X-Auth
-      in: header
-      x-apikeyInfoFunc: main.apikey_auth
     jwt:
       type: http
       scheme: bearer
