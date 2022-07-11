@@ -3,6 +3,7 @@
 This is a collection of example apis based on the OpenApi 3.0 specification which can be run on the local server and tested with the help of Postman as described below.
 
 ## Table of contents
+  - [Api Examples](#api-examples)
   - [Installation](#installation)
     - [*Step 1: Install Python*](#step-1-install-python)
     - [*Step 2: Install Postman*](#step-2-install-postman)
@@ -11,6 +12,15 @@ This is a collection of example apis based on the OpenApi 3.0 specification whic
   - [Usage](#usage)
     - [*Run the local server*](#run-the-local-server)
     - [*Sending api requests via Postman*](#sending-api-requests-via-postman)
+
+Api Examples
+===
+[Ecommerce api](ecommerce-example/README.MD)<br>
+[Hotel booking api](hotel-booking-example/README.MD)<br>
+[Library management api](library-management-example/README.MD)<br>
+[Social media api](social-media-example/README.MD)<br>
+[Swagger 2.0 Petstore api](swagger-petstore-2.0-example/README.MD)<br>
+[Swagger 3.0 Petstore api](../swagger-petstore-3.0-example/README.MD)
 
 ## Installation
 

@@ -24,7 +24,6 @@ For more information, click [here](https://pointsecio.readthedocs.io/en/latest/)
 
 Other Examples
 ===
-[Ecommerce api](ecommerce-example/../README.MD)<br>
 [Hotel booking api](../hotel-booking-example/README.MD)<br>
 [Library management api](../library-management-example/README.MD)<br>
 [Social media api](../social-media-example/README.MD)<br>
