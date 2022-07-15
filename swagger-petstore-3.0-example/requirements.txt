@@ -1,0 +1,5 @@
+pointsecio
+python-jose
+werkzeug
+flask
+requests

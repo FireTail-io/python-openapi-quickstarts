@@ -1,0 +1,387 @@
+openapi: 3.0.0
+info:
+  title: Library Management API
+  version: "0.1"
+  description: Library Management API to manage a library
+paths:
+  /books:
+    get:
+      tags:
+        - books
+      operationId: main.get_books
+      summary: Get all books
+      parameters:
+        - $ref: "#/components/parameters/book_type"
+        - $ref: "#/components/parameters/limit"
+      responses:
+        "200":
+          $ref: "#/components/responses/ReturnBooks"
+
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+      security:
+        - jwt: []
+
+  /books/author:
+    get:
+      tags:
+        - books
+      operationId: main.get_books_by_author
+      summary: Get all books by an author
+      parameters:
+        - $ref: "#/components/parameters/book_author"
+        - $ref: "#/components/parameters/limit"
+      responses:
+        "200":
+          $ref: "#/components/responses/ReturnBooks"
+
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+      security:
+        - jwt: []
+
+
+  "/books/{book_id}":
+    get:
+      tags:
+        - books
+      operationId: main.get_book
+      summary: Get a single book
+      parameters:
+        - $ref: "#/components/parameters/book_id"
+      responses:
+        "200":
+          description: Return book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "404":
+          description: book does not exist
+      security:
+        - jwt: []
+    put:
+      tags:
+        - books
+      operationId: main.put_book
+      summary: Update a book
+      parameters:
+        - $ref: "#/components/parameters/book_id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+      responses:
+        "200":
+          description: book updated
+        "201":
+          description: New book created
+      security:
+        - jwt: []
+    delete:
+      tags:
+        - books
+      operationId: main.delete_book
+      summary: Delete a book
+      parameters:
+        - $ref: "#/components/parameters/book_id"
+      responses:
+        "204":
+          description: book was deleted
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          description: book does not exist
+      security:
+        - jwt: []
+
+  "/books/{book_id}/availability":
+    get:
+      tags:
+        - books
+      operationId: main.get_book_availability
+      summary: get the availability of a book
+      parameters:
+        - $ref: '#/components/parameters/book_id'
+        - $ref: '#/components/parameters/from_date'
+        - $ref: '#/components/parameters/to_date'
+      responses:
+        "200":
+          description: book availability
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+
+        "404":
+          description: book does not exist
+      security:
+        - jwt: []
+
+  "/reservation":
+    post:
+      tags:
+        - books
+      operationId: main.put_reservation
+      summary: reserve a book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+      responses:
+        "200":
+          description: Reservation status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+      security:
+        - jwt: []
+
+  "/user/profile":
+    get:
+      tags:
+        - user
+      operationId: main.get_profile
+      summary: get user profile
+      responses:
+        "200":
+          description: user profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: user does not exist
+      security:
+          - jwt: []
+
+
+  /auth/{user_id}:
+    get:
+      summary: Return JWT token
+      operationId: jwtdecoder.generate_token
+      parameters:
+        - name: user_id
+          description: User unique identifier
+          in: path
+          required: true
+          example: 12
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /secret:
+    get:
+      summary: Return secret string
+      operationId: jwtdecoder.get_secret
+      responses:
+        "200":
+          description: secret response
+          content:
+            "text/plain":
+              schema:
+                type: string
+      security:
+        - jwt: ["secret"]
+
+  /healthz:
+    get:
+      operationId: main.health
+      summary: Return status of server
+      responses:
+        "200":
+          description: return status
+
+components:
+  parameters:
+    limit:
+      name: limit
+      description: limit number of results
+      in: query
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        default: 100
+    book_id:
+      name: book_id
+      description: book Unique identifier
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-]+$
+    book_type:
+      name: book_type
+      description: genre of book
+      in: query
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-]+$
+    book_author:
+      name: book_author
+      description: author of book
+      in: query
+      required: true
+      schema:
+        type: string
+    book_availability:
+      name: book_availabilty
+      description: book availability
+      in: path
+      required: true
+      schema:
+        type: boolean
+    from_date:
+      name: from date
+      in: query
+      schema:
+        type: string
+        format: date
+    to_date:
+      name: to date
+      in: query
+      schema:
+        type: string
+        format: date
+  responses:
+    UnauthorizedError:
+      description: API key is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
+    ReturnBooks:
+      description: Return books
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              books:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-bearerInfoFunc: jwtdecoder.decode_token
+  schemas:
+    Message:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: message
+          example: "success"
+    Book:
+      type: object
+      required:
+        - book_id
+        - book_title
+        - book_type
+        - book_author
+        - book_availability
+      properties:
+        book_id:
+          type: string
+          description: Unique identifier
+          example: "12"
+        book_title:
+          type: string
+          description: title of book
+          example: "The Golden Compass"
+        book_type:
+          type: string
+          description: book type
+          example: "action"
+        book_author:
+          type: string
+          description: book author
+          example: "Charles Darwin"
+        book_availability:
+          type: boolean
+          description: book availability
+          example: true
+        created:
+          type: string
+          format: date-time
+          description: Creation time
+          example: 2015-07-07T15:49:51.230+02:00
+          readOnly: true
+    User:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - username
+        - dob
+        - state
+        - postcode
+      properties:
+        first_name:
+          type: string
+          description: first name
+          example: "Adam"
+        last_name:
+          type: string
+          description: last name
+          example: "Powers"
+        username:
+          type: string
+          description: username
+          example: "adamnpowers"
+          readOnly: true
+        dob:
+          type: string
+          format: date
+          description: date of birth
+          example: "2000-01-05"
+        state:
+          type: string
+          description: state
+          example: "Texas"
+        postcode:
+          type: string
+          description: postal code
+          example: "D08TY32"
+    Reservation:
+      type: object
+      required:
+        - username
+        - from_date
+        - to_date
+        - book_id
+      properties:
+        username:
+          type: string
+          description: username
+          example: lion423
+        from_date:
+          type: string
+          format: date
+          description: Reservation start date
+          example: "2022-09-09"
+        to_date:
+          type: string
+          format: date
+          description: Reservation end date
+          example: "2022-09-29"
+        book_id:
+          type: string
+          description: book ID
+          pattern: ^[a-zA-Z0-9-]+$

@@ -1,0 +1,371 @@
+openapi: 3.0.0
+info:
+  title: Hotel Booking API
+  version: "0.1"
+  description: Hotel booking API to manage booking rooms
+paths:
+  /rooms:
+    get:
+      tags:
+        - rooms
+      operationId: main.get_rooms
+      summary: Get all rooms
+      parameters:
+        - $ref: "#/components/parameters/room_type"
+        - $ref: "#/components/parameters/limit"
+      responses:
+        "200":
+          $ref: "#/components/responses/ReturnRooms"
+
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+      security:
+        - jwt: []
+
+  "/rooms/available":
+    get:
+      tags:
+        - rooms
+      operationId: main.get_available_rooms
+      summary: Get all available rooms
+
+      responses:
+        "200":
+          $ref: "#/components/responses/ReturnRooms"
+      security:
+        - jwt: []
+
+  "/rooms/{room_id}":
+    get:
+      tags:
+        - rooms
+      operationId: main.get_room
+      summary: Get a single room
+      parameters:
+        - $ref: "#/components/parameters/room_id"
+      responses:
+        "200":
+          description: Return room
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Room"
+        "404":
+          description: room does not exist
+      security:
+        - jwt: []
+
+    put:
+      tags:
+        - rooms
+      operationId: main.put_room
+      summary: Update a room
+      parameters:
+        - $ref: "#/components/parameters/room_id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Room"
+      responses:
+        "200":
+          description: room updated
+        "201":
+          description: New room created
+      security:
+        - jwt: []
+
+    delete:
+      tags:
+        - rooms
+      operationId: main.delete_room
+      summary: Delete a room
+      parameters:
+        - $ref: "#/components/parameters/room_id"
+      responses:
+        "204":
+          description: room was deleted
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          description: product does not exist
+      security:
+        - jwt: []
+
+  "/rooms/{room_id}/availability":
+    get:
+      tags:
+        - rooms
+      operationId: main.get_room_availability
+      summary: get the availability of a room
+      parameters:
+        - $ref: '#/components/parameters/room_id'
+        - $ref: '#/components/parameters/from_date'
+        - $ref: '#/components/parameters/to_date'
+      responses:
+        "200":
+          description: room availability
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+
+        "404":
+          description: room does not exist
+      security:
+        - jwt: []
+
+  "/booking":
+    post:
+      tags:
+        - rooms
+      operationId: main.put_booking
+      summary: book a room
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Booking'
+      responses:
+        "200":
+          description: booking status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+      security:
+        - jwt: []
+
+  "/user/profile":
+    get:
+      tags:
+        - user
+      operationId: main.get_profile
+      summary: get user profile
+      responses:
+        "200":
+          description: user profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: user does not exist
+      security:
+        - jwt: []
+
+
+  /auth/{user_id}:
+    get:
+      summary: Return JWT token
+      operationId: jwtdecoder.generate_token
+      parameters:
+        - name: user_id
+          description: User unique identifier
+          in: path
+          required: true
+          example: 12
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /secret:
+    get:
+      summary: Return secret string
+      operationId: jwtdecoder.get_secret
+      responses:
+        "200":
+          description: secret response
+          content:
+            "text/plain":
+              schema:
+                type: string
+      security:
+        - jwt: ["secret"]
+
+  /healthz:
+    get:
+      operationId: main.health
+      summary: Return status of server
+      responses:
+        "200":
+          description: return status
+
+components:
+  parameters:
+    limit:
+      name: limit
+      description: limit number of results
+      in: query
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        default: 100
+    room_id:
+      name: room_id
+      description: rooms Unique identifier
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-]+$
+    room_type:
+      name: room_type
+      description: type of room
+      in: query
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-]+$
+    room_availabilty:
+      name: room_availabilty
+      description: rooms availability
+      in: path
+      required: true
+      schema:
+        type: boolean
+    from_date:
+      name: from date
+      in: query
+      schema:
+        type: string
+        format: date
+    to_date:
+      name: to date
+      in: query
+      schema:
+        type: string
+        format: date
+  responses:
+    UnauthorizedError:
+      description: API key is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
+    ReturnRooms:
+      description: Return rooms
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              rooms:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Room"
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-bearerInfoFunc: jwtdecoder.decode_token
+  schemas:
+    Message:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: message
+          example: "success"
+    Room:
+      type: object
+      required:
+        - room_id
+        - room_type
+        - room_availability
+      properties:
+        room_id:
+          type: string
+          description: Unique identifier
+          example: "12"
+        room_type:
+          type: string
+          description: room type
+          example: "double"
+        room_availability:
+          type: boolean
+          description: room availability
+          example: true
+        created:
+          type: string
+          format: date-time
+          description: Creation time
+          example: 2015-07-07T15:49:51.230+02:00
+          readOnly: true
+    User:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - username
+        - dob
+        - state
+        - postcode
+      properties:
+        first_name:
+          type: string
+          description: first name
+          example: "Adam"
+        last_name:
+          type: string
+          description: last name
+          example: "Powers"
+        username:
+          type: string
+          description: username
+          example: "adamnpowers"
+          readOnly: true
+        dob:
+          type: string
+          format: date
+          description: date of birth
+          example: "2000-01-05"
+        state:
+          type: string
+          description: state
+          example: "Texas"
+        postcode:
+          type: string
+          description: postal code
+          example: "D08TY32"
+    Booking:
+      type: object
+      required:
+        - username
+        - from_date
+        - to_date
+        - no_of_people
+        - room_id
+      properties:
+        username:
+          type: string
+          description: username
+          example: lion423
+        from_date:
+          type: string
+          format: date
+          description: booking start date
+          example: "2022-09-09"
+        to_date:
+          type: string
+          format: date
+          description: booking end date
+          example: "2022-09-29"
+        no_of_people:
+          type: integer
+          description: number of people
+          example: 3
+        room_id:
+          type: string
+          description: room ID
+          pattern: ^[a-zA-Z0-9-]+$
