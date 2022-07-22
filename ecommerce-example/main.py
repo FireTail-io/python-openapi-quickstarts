@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
+import sys
+# sys.path('/Users/santhosh/work/repos/pointsecio')
+
 import json
 from random import randint
 from randomuser import RandomUser
-import pointsecio
+import firetail
 import datetime
 import logging
 
-from pointsecio import NoContent
-from pointsecio.auditor import request_auditor
+from firetail import NoContent
+from firetail.auditor import request_auditor
 
 # our memory-only pet storage
-from pointsecio.exceptions import OAuthProblem
+from firetail.exceptions import OAuthProblem
 from requests import get
 
-from pointsecio import request
+from firetail import request
 
 TOKEN_DB = {
     'asdf1234567890': {
@@ -315,7 +318,7 @@ def get_profile():
 
 
 logging.basicConfig(level=logging.INFO)
-app = pointsecio.App(__name__)
+app = firetail.App(__name__)
 
 app.add_api('ecommerce-example.yaml')
 

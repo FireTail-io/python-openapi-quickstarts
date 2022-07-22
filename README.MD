@@ -41,7 +41,7 @@ Download and install postman [here](https://www.postman.com/downloads/)
 
 You can either download the files from Github as a zip or clone the repo to your local machine using -
 ```
-git clone https://github.com/PointSec-io/python-openapi-quickstarts.git
+git clone https://github.com/FireTail-io/python-openapi-quickstarts.git
 ```
 ***
 
