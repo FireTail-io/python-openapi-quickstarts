@@ -8,7 +8,7 @@ import time
 from jose import JWTError, jwt
 from werkzeug.exceptions import Unauthorized
 
-JWT_ISSUER = 'https://pointsec-example-eu.eu.mock.com/'
+JWT_ISSUER = 'https://firetail-example-eu.eu.mock.com/'
 JWT_SECRET = 'KgSYxubZkGLp0_zXnVfMkaeUY-UxQsAbBqcU_OR-x_lqfnLaixFPVpUnJeOVRe0Y'
 JWT_LIFETIME_SECONDS = 600
 JWT_ALGORITHM = 'HS256'

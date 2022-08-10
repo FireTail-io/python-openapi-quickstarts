@@ -19,7 +19,7 @@ What is Firetail?
 Firetail is an open source library that you can incorporate into your api that 
 helps secure the endpoints. It also provides authentication and prevents common malicious queries from reaching the endpoint.
 
-For more information, click [here](https://pointsecio.readthedocs.io/en/latest/)
+For more information, click [here](https://firetail.readthedocs.io/en/latest/)
 
 
 Other Examples
@@ -49,7 +49,7 @@ Download and install postman [here](https://www.postman.com/downloads/)
 
 You can either download the files from Github as a zip or clone the repo to your local machine using -
 ```
-git clone https://github.com/PointSec-io/python-openapi-quickstarts.git
+git clone https://github.com/FireTail-io/python-openapi-quickstarts.git
 ```
 
 
