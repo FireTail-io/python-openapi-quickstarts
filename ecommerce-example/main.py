@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 import sys
 # sys.path('/Users/santhosh/work/repos/pointsecio')
 
@@ -10,7 +11,7 @@ import datetime
 import logging
 
 from firetail import NoContent
-from firetail.auditor import request_auditor
+from firetail.auditor import cloud_logger
 
 # our memory-only pet storage
 from firetail.exceptions import OAuthProblem
@@ -18,11 +19,16 @@ from requests import get
 
 from firetail import request
 
+os.environ["TOKEN"] = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InA0bHgwY2JzY0I0ZmdnSmxEU2ZycSJ9.eyJodHRwczovL19lbWFpbCI6InNhbnRob3NoQGZpcmV0YWlsLmlvIiwiaXNzIjoiaHR0cHM6Ly9wb2ludHNlYy1ldS0xLmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MmNkNDNkNzYzNzllOTk3MmRlZjdmMGMiLCJhdWQiOlsiaHR0cHM6Ly9kZXYuYXBpLnBvaW50c2VjLmlvIiwiaHR0cHM6Ly9wb2ludHNlYy1ldS0xLmV1LmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2NTg3NjA0MTEsImV4cCI6MTY1ODg0NjgxMSwiYXpwIjoibURudUJNZ2F1TlZVb09zaFE3WFZ5cUpRY0gzV0RjVnIiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIn0.BspBYFLOyr7gQQkAg5tupdip0hHpFhSRKfDLgZw8I7-YVtk9GKGdVR8jWGBu3ijJHHomA8pUAYMFHdXZi4eJeWx-I9MtomercBOlAwnu0Or3PFHVoRjyu8i2omnTvr5m697izR60ZsSnbFTmyemNA3MnJWeCuNo-qXAkbTjHnAumrfcWck-C19ryDXPbflXteJMa41uT8FO9OdB_4h97Dx7RJv_o9k50rlwwHg0ukhIbkFWKiIuD62SdD8d-4EzNouSy0Wbbsl9EBK1WoKtTLWIfl_Ndojif0DOFk6DQ1W_KhMLb8ofAbW2hyLKn0e5WqK2OJS3mbGD-nh87NHv_PA'
+
+
 TOKEN_DB = {
     'asdf1234567890': {
         'uid': 100
     }
 }
+
+
 
 
 def apikey_auth(token, required_scopes):
@@ -229,9 +235,6 @@ PRODUCTS = {
     }
 }
 
-
-
-
 def health():
     return {'status': 'UP'}
 
@@ -321,9 +324,10 @@ logging.basicConfig(level=logging.INFO)
 app = firetail.App(__name__)
 
 app.add_api('ecommerce-example.yaml')
-
+cloud_logger(app.app, token=os.environ["TOKEN"])
 
 
 if __name__ == '__main__':
     app.debug = True
     app.run(port=8080, threaded=True)
+
