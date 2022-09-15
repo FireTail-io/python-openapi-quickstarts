@@ -7,7 +7,7 @@ import datetime
 import logging
 
 from firetail import NoContent
-from firetail.auditor import request_auditor
+from firetail.auditor import cloud_logger
 
 # our memory-only pet storage
 from firetail.exceptions import OAuthProblem
@@ -30,8 +30,7 @@ def apikey_auth(token, required_scopes):
 
     return info
 
-def get_profile(id):
-    user = RandomUser({'nat': 'ca'})
+def get_profile(user,id):
     return {
         "friend_id": id,
         "first_name": user.get_first_name(),
@@ -43,8 +42,9 @@ def get_profile(id):
         }
 
 FRIENDS = {}
+user = RandomUser.generate_users(15,{'nat': 'ca'})
 for i in range(15):
-    FRIENDS[str(i)] = get_profile(str(i))
+    FRIENDS[str(i)] = get_profile(user[i],i)
 
 
 POSTS = {

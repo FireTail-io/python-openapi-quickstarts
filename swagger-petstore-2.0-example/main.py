@@ -9,7 +9,7 @@ import datetime
 import logging
 
 from firetail import NoContent
-from firetail.auditor import request_auditor
+from firetail.auditor import cloud_logger
 
 # our memory-only pet storage
 from firetail.exceptions import OAuthProblem
