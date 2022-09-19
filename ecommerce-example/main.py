@@ -324,7 +324,6 @@ logging.basicConfig(level=logging.INFO)
 app = firetail.App(__name__)
 
 app.add_api('ecommerce-example.yaml')
-cloud_logger(app.app, token=os.environ["TOKEN"])
 
 
 if __name__ == '__main__':
