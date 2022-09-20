@@ -6,9 +6,9 @@ This is an example petstore api based on the Swagger 2.0 specification which can
   - [Other Examples](#other-examples)
   - [Installation](#installation)
     - [*Step 1: Install Python*](#step-1-install-python)
-    - [*Step 2: Install Postman*](#step-2-install-postman)
-    - [*Step 3: Download the files*](#step-3-download-the-files)
-    - [*Step 4: Install required libraries*](#step-3-install-required-libraries)
+    - [*Step 2: Download the files*](#step-2-download-the-files)
+    - [*Step 3: Install Postman*](#step-3-install-postman)
+    - [*Step 4: Install required libraries*](#step-4-install-required-libraries)
   - [Usage](#usage)
     - [*Run the local server*](#run-the-local-server)
     - [*Send api requests via Postman*](#sending-api-requests-via-postman)
@@ -30,39 +30,48 @@ Other Examples
 [Social media api](../social-media-example/README.MD)<br>
 [Swagger 3.0 Petstore api](../swagger-petstore-3.0-example/README.MD)
 
-Installation
-===
-Steps to run the example from scratch
+## Installation
 
-## *Step 1: Install Python*
+***
+
+### *Step 1: Install Python*
 
 Download and install python (3.6+) [here](https://www.python.org/downloads/)
+***
 
-
-## *Step 2: Install Postman*
-
-You can download and use postman or use the web version in which case you have to download the postman desktop agent to be able to send api requests to your local host.<br>
-Download and install postman [here](https://www.postman.com/downloads/)
-
-
-## *Step 3: Download the example specifications*
+### *Step 2: Download the files*
 
 You can either download the files from Github as a zip or clone the repo to your local machine using -
 ```
 git clone https://github.com/FireTail-io/python-openapi-quickstarts.git
 ```
+***
 
+### *Step 3: Install Postman*
 
-## *Step 4: Install the required libraries*
+1. You can download and use postman or use the web version in which case you have to download the postman desktop agent to be able to send api requests to your local host.<br>
+Download and install postman [here](https://www.postman.com/downloads/)
 
-Move to the swagger-petstore-2.0-example folder and install the required libraries using the following command
+2. Open the postman client and import the postman imports by clicking on File -> import<br>
+![Import yaml to postman](/assets/images/postman-import.jpg)
+
+3. Click on folder, choose "postman_import" folder and click open<br>
+![Postman choose folder](/assets/images/postman-choose-folder.png)
+
+4. Select the required examples (environment is mandatory)and click import <br>
+![Postman import collection](/assets/images/postman-import-collections.png)
+<br>
+***
+
+### *Step 4: Install required libraries*
+
+Install the required libraries using the following command in the cli in the downloaded location.
 ```
 python3 -m pip install -r requirements.txt
 ```
 ***
 
-Usage
-===
+## Usage
 
 ### *Run the local server*
 
@@ -72,38 +81,17 @@ python3 main.py
 ```
 ***
 
-### *Send api requests via Postman*
+### *Sending api requests via Postman*
 
-1. Open the postman client and import the openapi spec by clicking on File -> import
-    >![Import yaml to postman](../assets/images/petstore-2/postman-import.jpg)
+> **_NOTE:_** Call the endpoint called 'RETURN JWT TOKEN' to generate and set an authorization token which will allow access to the other endpoints. If the token expires, simply call the endpoint again.
+<br>
 
-2. Drag the file or click upload files and select the required yaml file to be imported and click import
-    >![Postman import dialog](../assets/images/petstore-2/postman-import-file.jpg)
+Once you have the local server running, you can now send requests via postman. 
+* Click on collection on the left and then select the request that you would like to send. Then fill in the parameters and body as required.
+![Postman params](../assets/images/postman-param.jpg)
+* Click send and the response will be displayed as shown.
+![Postman body](../assets/images/postman-body.jpg)
 
-3. Create a new environment by clicking create new environment and add two variables
-    >`baseUrl` with initial value - `http://localhost:8080`<br>
-    >`token`
-    >![Postman environment](../assets/images/petstore-2/postman-environment.jpg)
-
-4. Click on the `Return JWT token` request and under the `Tests` tab, paste the following code as shown below.
-    ```
-    var jsonData = JSON.parse(responseBody);
-
-    postman.setEnvironmentVariable("token", jsonData.access_token);
-
-   ```
-    >![Postman test](/assets/images/petstore-2/postman-test.jpg)
-   
-
-5. Click send to request an access token which will be automatically set as the value of the environment variable `token`
-
-6. To test the api requests that require an access token, you will need to set the token to `{{token}}` under the Authorization tab of the request like shown below.
-    >![Postman token](../assets/images/petstore-2/postman-token.jpg)
-
-7. Select the request and press send after assigning values to the path/query variables and/or body variables to get the requested output.
-    >![Postman params](../assets/images/petstore-2/postman-param.jpg)
-    >![Postman body](../assets/images/petstore-2/postman-body.jpg)
-***
 Sample cases
 ===
 >*Here are some examples of sending requests to the endpoints with some sample data.<br>All the sample cases assume that you have done the above steps to initialize the authorization token for the endpoints that may need them and that you are running the related example as a local server.<br>

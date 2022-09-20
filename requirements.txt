@@ -1,0 +1,5 @@
+firetail
+python-jose
+werkzeug
+flask
+randomuser
