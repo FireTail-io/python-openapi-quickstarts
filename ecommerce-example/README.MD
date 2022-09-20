@@ -61,6 +61,7 @@ Download and install postman [here](https://www.postman.com/downloads/)
 4. Select the required examples (environment is mandatory)and click import<br>
 ![Postman import collection](/assets/images/postman-import-collections.png)
 <br>
+
 ***
 
 
@@ -90,9 +91,9 @@ python3 main.py
 
 Once you have the local server running, you can now send requests via postman. 
 * Click on collection on the left and then select the request that you would like to send. Then fill in the parameters and body as required.
-![Postman params](assets/images/postman-param.jpg)
+![Postman params](../assets/images/postman-param.jpg)
 * Click send and the response will be displayed as shown.
-![Postman body](assets/images/postman-body.jpg)
+![Postman body](../assets/images/postman-body.jpg)
 
 Sample cases
 ===
