@@ -61,6 +61,7 @@ Download and install postman [here](https://www.postman.com/downloads/)
 4. Select the required examples (environment is mandatory)and click import <br>
 ![Postman import collection](/assets/images/postman-import-collections.png)
 <br>
+
 ***
 
 ### *Step 4: Install required libraries*
