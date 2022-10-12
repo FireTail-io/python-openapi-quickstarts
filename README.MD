@@ -50,8 +50,8 @@ Download and install postman [here](https://www.postman.com/downloads/)
 3. Click on folder, choose "postman_import" folder and click open<br>
 ![Postman choose folder](/assets/images/postman-choose-folder.png)
 
-4. Select the required examples (environment is mandatory)and click import <br>
-![Postman import collection](/assets/images/postman-import-collections.png)
+4. Click import with the selected files <br>
+![Postman import collection](/assets/images/postman-import-collections.jpg)
 <br>
 
 ***
