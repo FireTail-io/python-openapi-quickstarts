@@ -47,36 +47,36 @@ for i in range(15):
     FRIENDS[str(i)] = get_profile(user[i],i)
 
 
-POSTS = {
+STORYS = {
     "1": {
-        "post_id": 1,
+        "story_id": 1,
         "username": "andy",
-        "post_content": "My first post!!"
+        "story_content": "My first story!!"
     },
     "2": {
-        "post_id": 2,
+        "story_id": 2,
         "username": "andy",
-        "post_content": "Beautiful weather today"
+        "story_content": "Beautiful weather today"
     },
     "3": {
-        "post_id": 3,
+        "story_id": 3,
         "username": "andy",
-        "post_content": "I can't wait to go to the beach"
+        "story_content": "I can't wait to go to the beach"
     },
     "4": {
-        "post_id": 4,
+        "story_id": 4,
         "username": "sarah",
-        "post_content": "math is so hard :("
+        "story_content": "math is so hard :("
     },
     "5": {
-        "post_id": 5,
+        "story_id": 5,
         "username": "sarah",
-        "post_content": "Why wait when you can do it now?"
+        "story_content": "Why wait when you can do it now?"
     },
     "6": {
-        "post_id": 6,
+        "story_id": 6,
         "username": "lucy",
-        "post_content": "Vacation time!"
+        "story_content": "Vacation time!"
     },
 
 }
@@ -123,41 +123,41 @@ def delete_friend(friend_id):
     else:
         return NoContent, 404
 
-def get_post(post_id):
-    post = POSTS.get(post_id)
-    return post or (json.dumps({'message': "Not found"}), 404)
+def get_story(story_id):
+    story = STORYS.get(story_id)
+    return story or (json.dumps({'message': "Not found"}), 404)
 
-def put_post(post_id):
-    post = request.json
-    exists = post_id in POSTS
-    post['post_id'] = post_id
+def post_story(story_id):
+    story = request.json
+    exists = story_id in STORYS
+    story['story_id'] = story_id
     if exists:
-        print("Found post ", post_id)
+        print("Found story ", story_id)
         try:
-            POSTS[post_id].update(post)
+            STORYS[story_id].update(story)
         except:
-            print("An exception occured while trying to update post")
+            print("An exception occured while trying to update story")
     else:
-        post['created'] = datetime.datetime.utcnow()
+        story['created'] = datetime.datetime.utcnow()
         try:
-            POSTS[post_id] = post
+            STORYS[story_id] = story
         except:
-            print("An exception occured while trying to add a new post")
+            print("An exception occured while trying to add a new story")
     return NoContent, (200 if exists else 201)
 
-def delete_post(post_id):
-    if post_id in POSTS:
-        print("Found post ", post_id)
+def delete_story(story_id):
+    if story_id in STORYS:
+        print("Found story ", story_id)
         try:
-            del POSTS[post_id]
+            del STORYS[story_id]
         except:
-            print("Exception occured during deletion of post")
+            print("Exception occured during deletion of story")
         return NoContent, 204
     else:
         return NoContent, 404
 
 def get_timeline(limit):
-    return {"posts": [post for post in POSTS.values() ][:limit]}
+    return {"STORYS": [story for story in STORYS.values() ][:limit]}
 
 logging.basicConfig(level=logging.INFO)
 app = firetail.App(__name__)

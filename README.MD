@@ -47,10 +47,10 @@ Download and install postman [here](https://www.postman.com/downloads/)
 2. Open the postman client and import the postman imports by clicking on File -> import<br>
 ![Import yaml to postman](/assets/images/postman-import.jpg)
 
-3. Click on folder, choose "postman_import" folder and click open<br>
+3. Click on folder, choose "postman_import" folder in the example of your choice and click open<br>
 ![Postman choose folder](/assets/images/postman-choose-folder.png)
 
-4. Click import with the selected files <br>
+4. Click import with the selected files and environment<br>
 ![Postman import collection](/assets/images/postman-import-collections.jpg)
 <br>
 

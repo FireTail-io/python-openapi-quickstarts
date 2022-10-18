@@ -103,11 +103,11 @@ If you want to undo the changes you have made, just restart the local server.*
 2. Check response as shown below.
     >![get-friends-output](../assets/images/social-media/samples/get-friends-output.png)
 
-## *Get post* 
-1. Click on the "Get a single post" endpoint and set the value of post_id to '6'
-    >![get-post-input](../assets/images/social-media/samples/get-post-input.png)
+## *Get story* 
+1. Click on the "Get a single story" endpoint and set the value of story_id to '6'
+    >![get-story-input](../assets/images/social-media/samples/get-story-input.png)
 2. The following output wil be received as response.
-    >![get-post-output](../assets/images/social-media/samples/get-post-output.png)
+    >![get-story-output](../assets/images/social-media/samples/get-story-output.png)
 
 ## *Get timeline* 
 1. Click on the "Get timeline" endpoint and set the limit as '3'
