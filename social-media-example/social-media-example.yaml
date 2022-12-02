@@ -24,14 +24,14 @@ paths:
   /timeline:
     get:
       tags:
-        - posts
+        - stories
       operationId: main.get_timeline
       summary: Get timeline
       parameters:
         - $ref: "#/components/parameters/limit"
       responses:
         "200":
-          $ref: "#/components/responses/ReturnPosts"
+          $ref: "#/components/responses/ReturnStorys"
 
         "401":
           $ref: "#/components/responses/UnauthorizedError"
@@ -95,38 +95,38 @@ paths:
         - jwt: []
 
 
-  "/post/{post_id}":
+  "/story/{story_id}":
     get:
       tags:
-        - posts
-      operationId: main.get_post
-      summary: Get a single post
+        - stories
+      operationId: main.get_story
+      summary: Get a single story
       parameters:
-        - $ref: "#/components/parameters/post_id"
+        - $ref: "#/components/parameters/story_id"
       responses:
         "200":
-          description: Return post
+          description: Return story
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Post"
+                $ref: "#/components/schemas/Story"
         "404":
-          description: post does not exist
+          description: story does not exist
       security:
         - jwt: []
     post:
       tags:
-        - posts
-      operationId: main.put_post
-      summary: Add a post
+        - stories
+      operationId: main.post_story
+      summary: Add a story
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Post'
+              $ref: '#/components/schemas/Story'
       responses:
         "200":
-          description: post status
+          description: story status
           content:
             application/json:
               schema:
@@ -135,16 +135,16 @@ paths:
         - jwt: []
     delete:
       tags:
-        - posts
-      operationId: main.delete_post
-      summary: Delete a post
+        - stories
+      operationId: main.delete_story
+      summary: Delete a story
       responses:
         "204":
-          description: post was deleted
+          description: story was deleted
         "401":
           $ref: "#/components/responses/UnauthorizedError"
         "404":
-          description: post does not exist
+          description: story does not exist
       security:
         - jwt: []
 
@@ -211,9 +211,9 @@ components:
       schema:
         type: string
         pattern: ^[a-zA-Z0-9-]+$
-    post_id:
-      name: post_id
-      description: post Unique identifier
+    story_id:
+      name: story_id
+      description: story Unique identifier
       in: path
       required: true
       schema:
@@ -237,17 +237,17 @@ components:
                 type: array
                 items:
                   $ref: "#/components/schemas/Friend"
-    ReturnPosts:
-      description: Return posts
+    ReturnStorys:
+      description: Return storys
       content:
         application/json:
           schema:
             type: object
             properties:
-              posts:
+              storys:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Post"
+                  $ref: "#/components/schemas/Story"
   securitySchemes:
     jwt:
       type: http
@@ -305,24 +305,24 @@ components:
           type: string
           description: postal code
           example: "D08TY32"
-    Post:
+    Story:
       type: object
       required:
         - username
-        - post_id
+        - story_id
       properties:
         username:
           type: string
           description: username
           example: lion423
-        post_id:
+        story_id:
           type: string
-          description: post ID
+          description: story ID
           pattern: ^[a-zA-Z0-9-]+$
-        post_content:
+        story_content:
           type: string
-          description: post content
-          example: "New post"
+          description: story content
+          example: "New story"
         created:
           type: string
           format: date-time
